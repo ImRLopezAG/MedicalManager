@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MedicalManager.Core.Application.ViewModels.LabTestVm>
+
+@{
+  ViewData["Title"] = "Tests";
+}
+
+<div>
+  <h1 class="float-start">Tests</h1>
+  <a class='btn btn-primary float-end' asp-action="Create">Create New</a>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Name)
+      </th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model) {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+          @Html.ActionLink("Edit", "Edit", new { id=item.Id  }, new { @class = "btn btn-info" })
+
+        </td>
+        <td>|</td>
+        <td>
+          @using (Html.BeginForm("Delete", "LabTest", FormMethod.Post)) {
+            <input type="hidden" name="id" asp-for="@item.Id" value="@item.Id" />
+            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('are you sure that you want delete this Test : @item.Name')">
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

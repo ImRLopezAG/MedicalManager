@@ -1,0 +1,82 @@
+﻿@model MedicalManager.Core.Application.ViewModels.SaveVm.SaveDateVm
+
+@{
+  ViewData["Title"] = "AddTest";
+}
+
+<h1>Add Test</h1>
+
+@if(Model.LabTests != null && Model.LabTests.Count > 0)
+{
+  <div>
+  <hr />
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Status)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Status)
+    </dd>
+    <form asp-action="AddTest">
+      <div class="form-group">
+        <label asp-for="LabTestId" class="control-label"><strong>Test</strong></label>
+        <select asp-for="LabTestId" class="form-control " multiple>
+          <option value="">Select the Tests</option>
+          @foreach (var item in Model.LabTests) {
+            <option value="@item.Id">@item.Name</option>
+          }
+        </select>
+        <span asp-validation-for="LabTestId" class="text-danger"></span>
+        <div>
+          <input type="hidden" asp-for="@Model.Id" />
+          <input type="submit" value="Add Test" class="btn btn-primary mt-3" />
+        </div>
+      </div>
+    </form>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Description)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Day)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Day)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Hour)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Hour)
+    </dd>
+  </dl>
+
+</div>
+}else{
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">No Tests Found!</h4>
+    <hr>
+    <p>There are no tests to add to this date. Please add contact your administrator to add tests.</p>
+  </div>
+}
+<div>
+  <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+  @await Html.PartialAsync("_ValidationScriptsPartial")
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('#LabTestId').select2(
+            {
+                placeholder: "Select the Tests",
+                allowClear: true
+            }
+        );
+    });
+  </script>
+
+}

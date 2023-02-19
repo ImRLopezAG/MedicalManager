@@ -1,0 +1,57 @@
+@model MedicalManager.Core.Application.ViewModels.LabResultVm
+
+@{
+  ViewData["Title"] = "Results";
+}
+
+<div>
+  <h1 class="float-start">Results</h1>
+  <div class="float-end">
+    <form asp-action="Complete" class="float-start me-3">
+      <input type="hidden" name="DateId" value="@ViewBag.Date" />
+      <button type="submit" class="btn btn-outline-success">Complete</button>
+    </form>
+    <a asp-action="Index" asp-controller="Date" class="btn btn-primary">Go Back</a>
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Status)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Patient)
+      </th>
+      <th>
+        Test Name
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in ViewBag.LabResults) {
+      <tr>
+        <td>
+          @switch (item.Status) {
+            case "Pending":
+              <span class="text-warning">@item.Status</span>
+              break;
+            case "Completed":
+              <span class="text-success">@item.Status</span>
+              break;
+            default:
+              <span class="text-warning">@item.Status</span>
+              break;
+          }
+        </td>
+        <td>
+          @item.Patient
+        </td>
+        <td>
+          @item.LabTest
+        </td>
+        <td>
+      </tr>
+    }
+  </tbody>
+</table>

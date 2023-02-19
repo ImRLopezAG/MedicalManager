@@ -1,0 +1,47 @@
+@model MedicalManager.Core.Application.ViewModels.LabResultVm
+
+@{
+  ViewData["Title"] = "Results";
+}
+
+<div>
+  <h1 class="float-start">Results</h1>
+  <a asp-action="Index" asp-controller="Date" class="btn btn-primary float-end">Go Back</a>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Result)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Status)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Patient)
+      </th>
+      <th>
+        Test Name
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in ViewBag.LabResults) {
+      <tr>
+        <td>
+          @item.Result
+        </td>
+        <td>
+          <span class="text-success">@item.Status</span>
+        </td>
+        <td>
+          @item.Patient
+        </td>
+        <td>
+          @item.LabTest
+        </td>
+        <td>
+      </tr>
+    }
+  </tbody>
+</table>

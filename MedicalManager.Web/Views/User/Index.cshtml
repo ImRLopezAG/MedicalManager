@@ -1,0 +1,65 @@
+@model IEnumerable<MedicalManager.Core.Application.ViewModels.UserVm>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div>
+  <h1 class="float-start">Users</h1>
+  <a class='btn btn-primary float-end' asp-action="Create">Create New</a>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.UserName)
+      </th>
+      <th>
+        First Name
+      </th>
+      <th>
+        Last Name
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Email)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Role)
+      </th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model) {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+          @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }, new { @class = "btn btn-info" })
+        </td>
+        <td>|</td>
+        <td>
+          @using (Html.BeginForm("Delete", "User", FormMethod.Post)) {
+            <input type="hidden" name="id" asp-for="@item.Id" value="@item.Id" />
+            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('are you sure that you want delete this User : @item.UserName')">
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

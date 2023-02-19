@@ -1,0 +1,78 @@
+﻿@model MedicalManager.Core.Application.ViewModels.SaveVm.SaveDateVm
+
+@{
+  ViewData["Title"] = "Create Dates";
+}
+
+<h1>Create Date</h1>
+<hr />
+<div class="row">
+  <div class="col-md-4">
+    @if (Model.Doctors.Count() > 0) {
+      @if (Model.Patients.Count() > 0) {
+        <form asp-action="Create">
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="Day" class="control-label"></label>
+            <input asp-for="Day" class="form-control" />
+            <span asp-validation-for="Day" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="Hour" class="control-label"></label>
+            <input asp-for="Hour" class="form-control" />
+            <span asp-validation-for="Hour" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="PatientId" class="control-label">Patient</label>
+            <select class="form-select" asp-for="PatientId">
+              <option selected>Patient</option>
+              @foreach (var item in Model.Patients) {
+                <option value="@item.Id">@item.FirstName @item.LastName</option>
+              }
+            </select>
+            <span asp-validation-for="DoctorId" class="text-danger"></span>
+          </div>
+          <div class="form-group">
+            <label asp-for="DoctorId" class="control-label">Doctor </label>
+            <select class="form-select" asp-for="DoctorId">
+              <option selected>Doctor</option>
+              @foreach (var item in Model.Doctors) {
+                <option value="@item.Id">@item.FirstName @item.LastName</option>
+              }
+            </select>
+            <span asp-validation-for="DoctorId" class="text-danger"></span>
+          </div>
+      <div class="mt-3">
+        <div class="float-start">
+          <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        </div>
+        <div class="form-group float-end">
+          <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+      </div>
+        </form>
+      } else {
+        <div class="alert alert-danger" role="alert">
+          No patients found. Please add a patient first.
+        </div>
+        <a class="btn btn-primary" asp-action="Create" asp-controller="Patient">Create</a>
+      }
+    } else {
+      <div class="alert alert-danger" role="alert">
+        No doctors found. Please tell the admin to add a doctor first.
+      </div>
+      <a class="btn btn-primary" asp-action="Index">Back</a>
+    }
+
+  </div>
+</div>
+@section Scripts {
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+}

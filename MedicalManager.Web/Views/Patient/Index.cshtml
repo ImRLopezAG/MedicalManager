@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MedicalManager.Core.Application.ViewModels.PatientVm>
+
+@{
+  ViewData["Title"] = "Patients";
+}
+
+<Section class="row">
+  <div>
+    <h1 class="float-start">Patiens</h1>
+    <a class='btn btn-primary float-end' asp-action="Create">Create New</a>
+  </div>
+  <hr />
+  @foreach (var item in Model) {
+    <div class="card mb-3 px-0 me-3" style="max-width: 26rem;">
+      <div class="row g-0">
+        <div class="col-md-4 ">
+          <img src="@item.Photo" class="img-fluid rounded-start responsive" alt="@item.FirstName @item.LastName">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">@item.FirstName @item.LastName</h5>
+            <p class="card-text"><strong>Identification: </strong> @item.Identification</p>
+            <p class="card-text"><strong>Email: </strong> <small class="text-muted">@item.Email</small></p>
+            <p class="card-text"><strong>Phone: </strong> <small class="text-muted">@item.Phone</small></p>
+            <p class="card-text"><strong>Address: </strong> <small class="text-muted">@item.Address</small></p>
+            <p class="card-text"><strong>BirthDay: </strong> <small class="text-muted">@item.BirthDate</small></p>
+            <p class="card-text"><strong>Alergic: </strong> <small class="text-muted">@item.Allergic</small> / <strong>Smoke</strong>: <small class="text-muted">@item.Smoker</small></p>
+            <div class="card-body mb-2">
+              <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info float-start">Edit</a>
+              @using (Html.BeginForm("Delete", "Patient", FormMethod.Post, new { @class = "float-end" })) {
+                <input type="hidden" name="id" asp-for="@item.Id" value="@item.Id" />
+                <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('are you sure that you want delete this Patient: @item.FirstName @item.LastName')">
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</Section>
+

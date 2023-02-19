@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MedicalManager.Core.Application.ViewModels.DateVm>
+
+@{
+  ViewData["Title"] = "Dates";
+}
+<section class="row">
+  <div>
+    <h1 class="float-start">Dates</h1>
+    <a class='btn btn-primary float-end' asp-action="Create">Create New</a>
+  </div>
+  <hr />
+  @foreach (var item in Model) {
+    <div class="col-sm-4 mb-4">
+      <div class="card me-3" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Patient: @item.Patient</h5>
+          <p class="card-text">Doc: @item.Doctor</p>
+          <p class="card-text">Date: @item.Day / @item.Hour</p>
+          <p class="card-text">
+            Status: @switch (item.Status) {
+              case "Pending":
+                <span class="text-warning">@item.Status</span>
+                break;
+              case "On Hold":
+                <span class="text-info">@item.Status</span>
+                break;
+              case "Completed":
+                <span class="text-success">@item.Status</span>
+                break;
+              default:
+                <span class="text-warning">@item.Status</span>
+                break;
+            }
+          </p>
+          <p class="card-text fw-bold">Description: @item.Description</p>
+          <div>
+            @switch (item.Status) {
+            case "Pending":
+              <a asp-action="AddTest" asp-route-id="@item.Id" class="btn btn-warning float-start">Pending</a>
+              break;
+            case "On Hold":
+              <a asp-action="GetByDate" asp-route-id="@item.Id" asp-controller="LabResult" class="btn btn-info float-start">On Hold</a>
+              break;
+            case "Completed":
+              <a asp-action="GetComplete" asp-controller="LabResult" asp-route-id="@item.Id" class="btn btn-success">Show Results</a>
+              break;
+            default:
+              <a asp-action="AddTest"  asp-route-id="@item.Id" class="btn btn-primary float-start">Pending</a>
+              break;
+          }
+          @using (Html.BeginForm("Delete", "Date", FormMethod.Post ,new { @class = "float-end" })) {
+            <input type="hidden" name="id" asp-for="@item.Id" value="@item.Id" />
+            <input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('are you sure that you want delete this Date of : @item.Patient')">
+          }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</section>

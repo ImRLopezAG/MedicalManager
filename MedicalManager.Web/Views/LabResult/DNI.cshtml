@@ -1,0 +1,78 @@
+﻿@model MedicalManager.Core.Application.ViewModels.LabResultVm
+
+@{
+  ViewData["Title"] = "Results";
+}
+
+<div>
+  <h1 class="float-start">Results</h1>
+  <form asp-action="FilterByDNI" class="d-flex col-md-4 float-end">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-auto me-2">
+      <input asp-for="DNI" class="form-control" type="serch" placeholder="DNI" />
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-outline-primary mb-3">Search</button>
+    </div>
+  </form>
+</div>
+
+@if (ViewBag.Success) {
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+          Test Name
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.Patient)
+        </th>
+        <th>
+          @Html.DisplayNameFor(model => model.DNI)
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in ViewBag.LabResults) {
+        <tr>
+          <td>
+            @switch (item.Status) {
+              case "Pending":
+                <p class="text-warning">@item.Status</p>
+                break;
+              case "Completed":
+                <p class="text-success">@item.Status</p>
+                break;
+              default:
+                <span class="text-warning">@item.Status</span>
+                break;
+            }
+          </td>
+          <td>
+            @item.LabTest
+          </td>
+          <td>
+            @item.Patient
+          </td>
+          <td>
+            @item.DNI
+          </td>
+          @if (item.Status == "Pending") {
+            <td>
+              <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">Report</a>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+} else {
+  <div class="alert alert-danger" role="alert">
+    @ViewBag.Message
+  </div>
+  <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+}
